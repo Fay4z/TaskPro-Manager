@@ -152,16 +152,6 @@ function DummyLayout() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SignedOut>
-          <Button variant="outline">
-            <SignInButton />
-          </Button>
-        </SignedOut>
-        <SignedIn>
-          <Button variant="outline">
-            <UserButton />
-          </Button>
-        </SignedIn>
       </header>
 
       <main>

@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/clerk-react";
+import { TaskProvider } from "./context/taskContext.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -15,10 +16,12 @@ if (!PUBLISHABLE_KEY) {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-        <App />
-      </ClerkProvider>
-    </ThemeProvider>
+    <TaskProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+          <App />
+        </ClerkProvider>
+      </ThemeProvider>
+    </TaskProvider>
   </React.StrictMode>
 );
