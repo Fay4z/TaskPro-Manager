@@ -12,6 +12,7 @@ import dateFormat, { masks } from "dateformat";
 import useTaskContext from "@/hooks/useTaskContext";
 import AlertDelete from "./AlertDelete";
 import AlertEdit from "./AlertEdit";
+import Edit from "./Edit";
 
 export default function TaskList({ tasks }) {
   const { dispatch } = useTaskContext();
@@ -42,8 +43,9 @@ export default function TaskList({ tasks }) {
     }
   };
 
-  const handleEdit = async (id) => {
+  const handleEdit = async (e) => {
     try {
+      const id = e.target.dataset.id;
       const res = await fetch(`/api/tasks/${id}`, {
         method: "PATCH",
       });
@@ -60,7 +62,7 @@ export default function TaskList({ tasks }) {
   };
 
   return (
-    <div className="p-4 space-y-3 sm:space-y-0  sm:p-10 md:grid md:grid-cols-2 md:gap-5">
+    <div className="space-y-3 sm:space-y-0 md:grid md:grid-cols-2 md:gap-5">
       {tasks ? (
         tasks.map((task) => (
           <div key={task._id}>
@@ -80,6 +82,8 @@ export default function TaskList({ tasks }) {
               </CardHeader>
               <CardContent className="my-3">
                 <div className="space-y-4">
+                  <h3>{task._id}</h3>
+
                   <div className="flex space-x-3">
                     <h4 className="text-md text-balance">Status: </h4>
                     <Badge>{task.status}</Badge>
@@ -95,8 +99,12 @@ export default function TaskList({ tasks }) {
                 </div>
               </CardContent>
               <CardFooter className=" space-x-3">
-                <Button variant="outline">Edit this task</Button>
-                <AlertEdit />
+                <AlertEdit
+                  handleEdit={handleEdit}
+                  taskId={task._id}
+                  task={task}
+                />
+                {/* <Edit taskId={task._id} task={task} /> */}
                 <AlertDelete handleDelete={handleDelete} taskId={task._id} />
               </CardFooter>
             </Card>

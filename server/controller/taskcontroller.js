@@ -69,6 +69,15 @@ const deleteTask = async (req, res) => {
   }
 };
 
+const deleteAllTask = async (req, res) => {
+  try {
+    const tasks = await Task.deleteMany();
+    res.json(tasks);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 module.exports = {
   demo,
   getAllTasks,

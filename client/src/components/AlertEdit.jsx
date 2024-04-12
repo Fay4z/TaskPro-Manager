@@ -1,108 +1,145 @@
-import React from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import useTaskContext from "@/hooks/useTaskContext";
+import { FilePen } from "lucide-react";
+import { useState } from "react";
 import { Textarea } from "./ui/textarea";
 
-const AlertEdit = ({ taskId, handleDelete }) => {
+const AlertEdit = ({ taskId, task }) => {
+  const { tasks, dispatch } = useTaskContext();
+
+  const [updatetask, setUpdateTask] = useState(task);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateTask((prevTask) => ({ ...prevTask, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Update the task in your data source
+    console.log("Updated task:", updatetask);
+
+    if (updatetask) {
+      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatetask),
+      });
+      const updatedTask = await response.json();
+      console.log("after updatation in db", updatedTask);
+
+      if (!response.ok) {
+        console.log("error");
+      }
+
+      if (response.ok) {
+        console.log("no error");
+        console.log("ss", updatedTask);
+        dispatch({
+          type: "UPDATE_TASK",
+          payload: updatedTask,
+        });
+      }
+    }
+  };
+
   return (
     <div>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="outline">Edit this Task</Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <Card className="w-[450px]">
-              <CardHeader>
-                <CardTitle>Edit Task</CardTitle>
-                <CardDescription>
-                  Edit your existing task in one-click.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form>
-                  <div className="grid w-full items-center gap-4">
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="title">Title</Label>
-                      <Input id="title" placeholder="Title of the task" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="status">Status</Label>
-                      <Select>
-                        <SelectTrigger id="status">
-                          <SelectValue placeholder="Select Status" />
-                        </SelectTrigger>
-                        <SelectContent position="popper">
-                          <SelectItem value="todo">Todo</SelectItem>
-                          <SelectItem value="completed">Completed</SelectItem>
-                          <SelectItem value="doing">Doing</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="priority">Priority</Label>
-                      <Select>
-                        <SelectTrigger id="priority">
-                          <SelectValue placeholder="Select Priority" />
-                        </SelectTrigger>
-                        <SelectContent position="popper">
-                          <SelectItem value="low">Low</SelectItem>
-                          <SelectItem value="medium">Medium</SelectItem>
-                          <SelectItem value="high">High</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="description">Description</Label>
-                      <Textarea
-                        id="description"
-                        placeholder="Description of the task"
-                      />
-                    </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="dueDate">Due Date</Label>
-                      <Input id="dueDate" placeholder="Title of the task" />
-                    </div>
-                  </div>
-                </form>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>
+            <span className="mr-3">
+              <FilePen />
+            </span>{" "}
+            Edit Task
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Create Task</DialogTitle>
+            <DialogDescription>
+              Create Task here. Click create when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit}>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="title">Title:</Label>
+                <Input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={updatetask.title}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="description">Description:</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={updatetask.description}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="dueDate">Due Date:</Label>
+                <Input
+                  type="datetime-local"
+                  id="dueDate"
+                  name="dueDate"
+                  value={updatetask.dueDate}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="status">Status:</Label>
+                <select
+                  className="  border p-2 rounded-md w-full text-sm "
+                  id="status"
+                  name="status"
+                  value={updatetask.status}
+                  onChange={handleInputChange}
+                >
+                  <option value="Todo">Todo</option>
+                  <option value="Doing">Doing</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="priority">Priority:</Label>
+                <select
+                  className="  border p-2 rounded-md w-full text-sm "
+                  id="priority"
+                  name="priority"
+                  value={updatetask.priority}
+                  onChange={handleInputChange}
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
 
-                <Button>Deploy</Button>
-              </CardFooter>
-            </Card>
-          </AlertDialogHeader>
-        </AlertDialogContent>
-      </AlertDialog>
+              <Button type="submit">Update Task</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
