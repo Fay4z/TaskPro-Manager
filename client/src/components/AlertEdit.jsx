@@ -15,9 +15,12 @@ import useTaskContext from "@/hooks/useTaskContext";
 import { FilePen } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "./ui/textarea";
+import { toast } from "sonner";
 
 const AlertEdit = ({ taskId, task }) => {
-  const { tasks, dispatch } = useTaskContext();
+  const { dispatch } = useTaskContext();
+
+  const [open, setOpen] = useState(false);
 
   const [updatetask, setUpdateTask] = useState(task);
 
@@ -53,13 +56,17 @@ const AlertEdit = ({ taskId, task }) => {
           type: "UPDATE_TASK",
           payload: updatedTask,
         });
+        toast("Task has been edited", {
+          description: "Kindly refresh the page to see changes",
+        });
+        setOpen(false);
       }
     }
   };
 
   return (
     <div>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
             <span className="mr-3">
@@ -70,9 +77,9 @@ const AlertEdit = ({ taskId, task }) => {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Create Task</DialogTitle>
+            <DialogTitle>Edit Task</DialogTitle>
             <DialogDescription>
-              Create Task here. Click create when you're done.
+              Edit Task here. Click update task when you're done.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit}>

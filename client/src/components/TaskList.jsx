@@ -13,6 +13,7 @@ import useTaskContext from "@/hooks/useTaskContext";
 import AlertDelete from "./AlertDelete";
 import AlertEdit from "./AlertEdit";
 import Edit from "./Edit";
+import { toast } from "sonner";
 
 export default function TaskList({ tasks }) {
   const { dispatch } = useTaskContext();
@@ -37,20 +38,9 @@ export default function TaskList({ tasks }) {
           type: "DEL_TASK",
           payload: data,
         });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleEdit = async (e) => {
-    try {
-      const id = e.target.dataset.id;
-      const res = await fetch(`/api/tasks/${id}`, {
-        method: "PATCH",
-      });
-      if (res.status === 200) {
-        console.log("Task updated");
+        toast("Task has been deleted", {
+          description: "Kindly refresh the page to see changes",
+        });
       }
     } catch (error) {
       console.error(error);
@@ -99,12 +89,7 @@ export default function TaskList({ tasks }) {
                 </div>
               </CardContent>
               <CardFooter className=" space-x-3">
-                <AlertEdit
-                  handleEdit={handleEdit}
-                  taskId={task._id}
-                  task={task}
-                />
-                {/* <Edit taskId={task._id} task={task} /> */}
+                <AlertEdit taskId={task._id} task={task} />
                 <AlertDelete handleDelete={handleDelete} taskId={task._id} />
               </CardFooter>
             </Card>

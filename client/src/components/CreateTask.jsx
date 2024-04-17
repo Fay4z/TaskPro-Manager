@@ -13,7 +13,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useTaskContext from "@/hooks/useTaskContext";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export function CreateTask() {
   const {
@@ -22,6 +24,8 @@ export function CreateTask() {
     reset,
     formState: { errors },
   } = useForm();
+
+  const [open, setOpen] = useState(false);
 
   const { tasks, dispatch } = useTaskContext();
 
@@ -48,6 +52,11 @@ export function CreateTask() {
           type: "CREATE_TASK",
           payload: createdTask,
         });
+        toast("Task has been created", {
+          description: "Kindly refresh the page to see changes",
+        });
+
+        setOpen(false);
       }
     }
   };
@@ -55,7 +64,7 @@ export function CreateTask() {
     console.log(errors);
   }
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
           <span className="mr-3">

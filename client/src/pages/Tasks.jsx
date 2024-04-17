@@ -30,8 +30,8 @@ function Tasks() {
   return (
     <div className="p-4 sm:p-10">
       <div className=" flex justify-between items-center">
-        {/* <h1 className=" text-2xl py-4">Tasks</h1>
-        <CreateTask /> */}
+        <h1 className=" text-2xl py-4">Tasks</h1>
+        <CreateTask />
       </div>
       <TaskList tasks={tasks} />
     </div>
