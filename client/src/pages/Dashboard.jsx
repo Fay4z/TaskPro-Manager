@@ -1,13 +1,13 @@
-import Charts from "@/components/Charts";
-import Hero from "@/components/Hero";
-import { ModeToggle } from "@/components/mode-toggle";
+import CardDashboard from "@/components/CardDashboard";
+import useFetchTasks from "@/hooks/fetchTasks";
 
 function Dashboard() {
+  const { tasks, loading } = useFetchTasks();
+  console.log(tasks);
   return (
     <div>
       <h1>Dashboard</h1>
-      <ModeToggle />
-      <Charts />
+      <CardDashboard tasks={tasks} />
     </div>
   );
 }

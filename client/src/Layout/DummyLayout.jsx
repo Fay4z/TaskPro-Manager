@@ -30,6 +30,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 function DummyLayout() {
   return (
@@ -151,6 +152,7 @@ function DummyLayout() {
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <ModeToggle />
         </div>
       </header>
 
