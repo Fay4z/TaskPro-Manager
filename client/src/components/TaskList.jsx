@@ -12,7 +12,6 @@ import dateFormat, { masks } from "dateformat";
 import useTaskContext from "@/hooks/useTaskContext";
 import AlertDelete from "./AlertDelete";
 import AlertEdit from "./AlertEdit";
-import Edit from "./Edit";
 import { toast } from "sonner";
 
 export default function TaskList({ tasks }) {

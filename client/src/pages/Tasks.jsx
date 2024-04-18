@@ -8,24 +8,8 @@ import useFetchTasks from "@/hooks/fetchTasks";
 
 function Tasks() {
   const [alltasks, setAllTasks] = useState([]);
-  // const { tasks, dispatch } = useTaskContext();
   const { tasks, loading } = useFetchTasks();
   console.log(tasks);
-  // useEffect(() => {
-  //   const fetchTasks = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:3000/tasks");
-  //       const data = await response.json();
-  //       setAllTasks(data);
-  //       if (response.ok) {
-  //         dispatch({ type: "SET_TASK", payload: data });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   };
-  //   fetchTasks();
-  // }, []);
 
   return (
     <div className="p-4 sm:p-10">
