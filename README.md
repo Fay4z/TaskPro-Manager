@@ -25,7 +25,7 @@ code complexity.
 
     [ ] - Filter Tasks by status
 
-    [ ] - Filter Tasks by filter
+    [ ] - Filter Tasks by priority
 
     [ ] - Habit Checker
 

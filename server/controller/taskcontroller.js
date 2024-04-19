@@ -44,15 +44,6 @@ const updateTask = async (req, res) => {
 
     const task = await Task.findByIdAndUpdate({ _id: id }, { ...req.body });
     res.json(task);
-
-    // const task = await Task.findByIdAndUpdate(req.params.id);
-    // task.title = req.body.title;
-    // task.status = req.body.status;
-    // task.priority = req.body.priority;
-    // task.dueDate = req.body.dueDate;
-    // task.description = req.body.description;
-    // const updatedTask = await task.save();
-    // res.json(updatedTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -69,10 +60,42 @@ const deleteTask = async (req, res) => {
   }
 };
 
-const deleteAllTask = async (req, res) => {
+const deleteAllTasks = async (req, res) => {
   try {
     const tasks = await Task.deleteMany();
     res.json(tasks);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+const filterTasksbyStatus = async (req, res) => {
+  try {
+    const { status } = req.params;
+    console.log(status);
+    const tasks = await Task.find({ status: status });
+
+    if (tasks.length == 0) {
+      res.json({ message: "no tasks to display with this status" });
+    } else {
+      res.json(tasks);
+    }
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+const filterTasksbyPriority = async (req, res) => {
+  try {
+    const { priority } = req.params;
+    console.log(priority);
+    const tasks = await Task.find({ priority: priority });
+
+    if (tasks.length == 0) {
+      res.json({ message: "no tasks to display with this priority" });
+    } else {
+      res.json(tasks);
+    }
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -85,4 +108,7 @@ module.exports = {
   getTask,
   updateTask,
   deleteTask,
+  deleteAllTasks,
+  filterTasksbyStatus,
+  filterTasksbyPriority,
 };
