@@ -33,7 +33,7 @@ code complexity.
 
 #### Note :
 
-This is a react project that uses `tailwinf CSS` ,`vite` instead of `create-react-app`.
+This is a react project that uses `tailwind CSS` ,`vite` instead of `create-react-app`.
 This does not change any functionality or performance that a `create-react-app` uses. Instead, `vite`
 increases performance, rendering time etc...
 
