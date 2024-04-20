@@ -67,7 +67,7 @@ export default function CardDashboard({ tasks }) {
   return (
     <div>
       <Tabs defaultValue="status" className="">
-        <TabsList className="grid grid-cols-2 w-[400px]">
+        <TabsList className="grid grid-cols-2 w-[200px] sm:w-[400px]">
           <TabsTrigger value="status">Status</TabsTrigger>
           <TabsTrigger value="priority">Priority</TabsTrigger>
         </TabsList>
@@ -153,7 +153,7 @@ function TaskCardbyPriority({ taskCount }) {
           <CardContent className="flex flex-col justify-center p-6">
             <div className="text-3xl font-bold">{taskCount.totalTasks}</div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              Total
+              Total tasks
             </div>
             <div className="flex flex-col space-y-6 pt-6">
               <Button onClick={handleclick}>Add a new task</Button>
