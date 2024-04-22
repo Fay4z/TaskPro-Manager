@@ -24,15 +24,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/clerk-react";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useLogout } from "@/hooks/useLogout";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 function DummyLayout() {
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
+
+  const handleClick = () => {
+    logout();
+  };
+
   return (
     <div>
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -50,30 +53,41 @@ function DummyLayout() {
           >
             Dashboard
           </NavLink>
-          <NavLink
-            to="/tasks"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Tasks
-          </NavLink>
-          <NavLink
-            to="/tasksTable"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Tasks Table
-          </NavLink>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Customers
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Analytics
-          </Link>
+          {user && (
+            <div>
+              <span>{user.email}</span>
+              <button onClick={handleClick}>Log out</button>
+
+              <NavLink
+                to="/tasks"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Tasks
+              </NavLink>
+            </div>
+          )}
+          {user && (
+            <div>
+              <NavLink
+                to="/tasks"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Tasks
+              </NavLink>
+              <NavLink
+                to="/login"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                Signup
+              </NavLink>
+            </div>
+          )}
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -105,23 +119,17 @@ function DummyLayout() {
                 Tasks
               </NavLink>
               <NavLink
-                to="/tasksTable"
+                to="/login"
                 className="text-muted-foreground hover:text-foreground"
               >
-                Tasks Table
+                Login
               </NavLink>
-              <Link
-                href="#"
+              <NavLink
+                to="/signup"
                 className="text-muted-foreground hover:text-foreground"
               >
-                Customers
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Analytics
-              </Link>
+                Signup
+              </NavLink>
             </nav>
           </SheetContent>
         </Sheet>
