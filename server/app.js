@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const TaskRoute = require("./routes/tasks");
+const UserRoute = require("./routes/user");
 
 require("dotenv").config();
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => res.send("Hello World!"));
 console.log(process.env.MONGO_URL);
 
 app.use("/tasks", TaskRoute);
+app.use("/auth", UserRoute);
 
 mongoose
   .connect(process.env.MONGO_URL)
