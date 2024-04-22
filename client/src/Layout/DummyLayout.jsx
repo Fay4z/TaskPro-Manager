@@ -55,8 +55,14 @@ function DummyLayout() {
           </NavLink>
           {user && (
             <div>
-              <span>{user.email}</span>
-              <button onClick={handleClick}>Log out</button>
+              <h2>{user.email}</h2>
+              <NavLink
+                onClick={handleClick}
+                to="/login"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Log out
+              </NavLink>
 
               <NavLink
                 to="/tasks"
@@ -66,7 +72,7 @@ function DummyLayout() {
               </NavLink>
             </div>
           )}
-          {user && (
+          {!user && (
             <div>
               <NavLink
                 to="/tasks"
