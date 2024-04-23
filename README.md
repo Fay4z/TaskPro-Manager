@@ -19,11 +19,13 @@ code complexity.
 
     [/] - Tasks Dashboard
 
+    [/] - Authentication
+
+    [/] - Filter Tasks by status
+
 ### Things to add :
 
-    [ ] - Auth
-
-    [ ] - Filter Tasks by status
+    [ ] - Authorization
 
     [ ] - Filter Tasks by priority
 
