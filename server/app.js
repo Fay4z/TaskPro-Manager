@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => res.send("Hello World!"));
-console.log(process.env.MONGO_URL);
+console.log("connecting...");
 
 app.use("/tasks", TaskRoute);
 app.use("/auth", UserRoute);

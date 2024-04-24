@@ -17,10 +17,13 @@ function App() {
               index
               element={user ? <Dashboard /> : <Navigate to="/login" />}
             />
-            <Route path="tasks" element={<Tasks />} />
+            <Route
+              path="tasks"
+              element={user ? <Tasks /> : <Navigate to="/login" />}
+            />
             <Route
               path="login"
-              element={!user ? <LoginForm /> : <Navigate to="/" />}
+              element={!user ? <LoginForm /> : <Navigate to="/tasks" />}
             />
             <Route
               path="signup"

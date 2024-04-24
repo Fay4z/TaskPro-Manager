@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuthContext } from "@/hooks/useAuthContext";
 import useTaskContext from "@/hooks/useTaskContext";
+import { useAuth } from "@clerk/clerk-react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,13 +31,19 @@ export function CreateTask() {
 
   const { tasks, dispatch } = useTaskContext();
 
+  const { user } = useAuthContext();
+
   const onSubmit = async (data) => {
     console.log(data);
+    if (!user) {
+      return;
+    }
     if (data) {
       const response = await fetch("http://localhost:3000/tasks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(data),
       });

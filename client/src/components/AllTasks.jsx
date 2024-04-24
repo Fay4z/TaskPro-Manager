@@ -33,8 +33,6 @@ function AllTasks({ tasks, formatDate, handleDelete }) {
               </CardHeader>
               <CardContent className="my-3">
                 <div className="space-y-4">
-                  <h3>{task._id}</h3>
-
                   <div className="flex space-x-3">
                     <h4 className="text-md text-balance">Status: </h4>
                     <Badge>{task.status}</Badge>

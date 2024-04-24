@@ -1,16 +1,22 @@
 //custom hook to fetch data from db
 import { useState, useEffect } from "react";
 import useTaskContext from "./useTaskContext";
+import { useAuthContext } from "./useAuthContext";
 
 const useFetchTasks = () => {
   const { dispatch } = useTaskContext();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/tasks"); // Replace with your API endpoint
+        const response = await fetch("http://localhost:3000/tasks", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const data = await response.json();
         setTasks(data);
         setLoading(false);
@@ -21,9 +27,10 @@ const useFetchTasks = () => {
         console.error("Error fetching tasks:", error);
       }
     };
-
-    fetchData();
-  }, []);
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
 
   return { tasks, loading };
 };

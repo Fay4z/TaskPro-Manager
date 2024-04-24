@@ -1,12 +1,14 @@
-import dateFormat, { masks } from "dateformat";
+import dateFormat from "dateformat";
 import useTaskContext from "@/hooks/useTaskContext";
 import { toast } from "sonner";
 import AllTasks from "./AllTasks";
 import AllTasksByStatus from "./AllTaskByStatus";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function TaskList({ tasks }) {
   const { dispatch } = useTaskContext();
+  const { user } = useAuthContext();
 
   const formatDate = (date) => {
     return dateFormat(date, "mmmm dS, yyyy");
@@ -15,8 +17,16 @@ export default function TaskList({ tasks }) {
   const handleDelete = async (e) => {
     try {
       const id = e.target.dataset.id;
+      console.log(id);
+      console.log(user);
+      if (!user) {
+        return;
+      }
       const response = await fetch(`http://localhost:3000/tasks/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       });
       const data = await response.json();
 

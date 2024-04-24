@@ -6,7 +6,8 @@ const demo = (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const user_id = req.user._id;
+    const tasks = await Task.find({ user_id }).sort({ createdAt: -1 });
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -14,12 +15,14 @@ const getAllTasks = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
+  const user_id = req.user._id;
   const task = new Task({
     title: req.body.title,
     status: req.body.status,
     priority: req.body.priority,
     dueDate: req.body.dueDate,
     description: req.body.description,
+    user_id,
   });
   try {
     const newTask = await task.save();
@@ -71,9 +74,13 @@ const deleteAllTasks = async (req, res) => {
 
 const filterTasksbyStatus = async (req, res) => {
   try {
+    const user_id = req.user._id;
+
     const { status } = req.params;
     console.log(status);
-    const tasks = await Task.find({ status: status });
+    const tasks = await Task.find({ user_id, status: status }).sort({
+      createdAt: -1,
+    });
 
     if (tasks.length == 0) {
       res.json({ message: "no tasks to display with this status" });

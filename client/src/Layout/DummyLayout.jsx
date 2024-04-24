@@ -45,7 +45,7 @@ function DummyLayout() {
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
           >
             <Package2 className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
+            <span className="sr-only">TaskPro</span>
           </Link>
           <NavLink
             to="/"
@@ -54,16 +54,7 @@ function DummyLayout() {
             Dashboard
           </NavLink>
           {user && (
-            <div>
-              <h2>{user.email}</h2>
-              <NavLink
-                onClick={handleClick}
-                to="/login"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Log out
-              </NavLink>
-
+            <div className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
               <NavLink
                 to="/tasks"
                 className="text-muted-foreground transition-colors hover:text-foreground"
@@ -73,13 +64,7 @@ function DummyLayout() {
             </div>
           )}
           {!user && (
-            <div>
-              <NavLink
-                to="/tasks"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Tasks
-              </NavLink>
+            <div className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
               <NavLink
                 to="/login"
                 className="text-muted-foreground transition-colors hover:text-foreground"
@@ -113,61 +98,95 @@ function DummyLayout() {
                 className="flex items-center gap-2 text-lg font-semibold"
               >
                 <Package2 className="h-6 w-6" />
-                <span className="sr-only">Acme Inc</span>
+                <span className="sr-only">TaskPro</span>
               </Link>
               <NavLink to="/" className="hover:text-foreground">
                 Dashboard
               </NavLink>
-              <NavLink
-                to="/tasks"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Tasks
-              </NavLink>
-              <NavLink
-                to="/login"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Login
-              </NavLink>
-              <NavLink
-                to="/signup"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Signup
-              </NavLink>
+              {user && (
+                <div className="grid gap-6 text-lg font-medium">
+                  <NavLink
+                    to="/tasks"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    Tasks
+                  </NavLink>
+                  <NavLink className="text-muted-foreground transition-colors hover:text-foreground">
+                    {user.email}
+                  </NavLink>
+                  <NavLink
+                    onClick={handleClick}
+                    to="/login"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    Log out
+                  </NavLink>
+                </div>
+              )}
+              {!user && (
+                <div className="grid gap-6 text-lg font-medium">
+                  <NavLink
+                    to="/login"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    to="/signup"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    Signup
+                  </NavLink>
+                </div>
+              )}
             </nav>
           </SheetContent>
         </Sheet>
-        <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-          <form className="ml-auto flex-1 sm:flex-initial">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search tasks..."
-                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-              />
+        {user && (
+          <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+            <form className="ml-auto flex-1 sm:flex-initial">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Search tasks..."
+                  className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                />
+              </div>
+            </form>
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="rounded-full"
+                  >
+                    <CircleUser className="h-5 w-5" />
+                    <span className="sr-only">Toggle user menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Email: {user.email}</DropdownMenuItem>
+                  <DropdownMenuItem>Username: {user.username}</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <NavLink
+                      onClick={handleClick}
+                      to="/login"
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      Log out
+                    </NavLink>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <ModeToggle />
             </div>
-          </form>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <ModeToggle />
-        </div>
+          </div>
+        )}
       </header>
 
       <main>

@@ -16,9 +16,11 @@ import { FilePen } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 const AlertEdit = ({ taskId, task }) => {
   const { dispatch } = useTaskContext();
+  const { user } = useAuthContext();
 
   const [open, setOpen] = useState(false);
 
@@ -39,6 +41,7 @@ const AlertEdit = ({ taskId, task }) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(updatetask),
       });

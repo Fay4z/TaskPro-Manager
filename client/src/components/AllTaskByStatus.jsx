@@ -11,16 +11,23 @@ import { Badge } from "./ui/badge";
 import AlertDelete from "./AlertDelete";
 import AlertEdit from "./AlertEdit";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 function AllTasksByStatus({ status, formatDate, handleDelete }) {
   const [taskstatus, setTaskStatus] = useState(status);
   const [taskByStatus, setTaskByStatus] = useState([]);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     async function fetchTasksbyStatus(status) {
       try {
         const response = await fetch(
-          `http://localhost:3000/tasks/status/${status}`
+          `http://localhost:3000/tasks/status/${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
         );
         const data = await response.json();
         if (response.ok) {
@@ -31,8 +38,10 @@ function AllTasksByStatus({ status, formatDate, handleDelete }) {
         console.error(error);
       }
     }
-    fetchTasksbyStatus(taskstatus);
-  }, []);
+    if (user) {
+      fetchTasksbyStatus(taskstatus);
+    }
+  }, [user]);
 
   if (taskByStatus.message) {
     return <p>{taskByStatus.message}</p>;

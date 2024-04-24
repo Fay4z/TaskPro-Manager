@@ -11,7 +11,10 @@ const {
   deleteAllTasks,
   filterTasksbyPriority,
 } = require("../controller/taskcontroller");
+const requireAuth = require("../middleware/requireAuth");
 const router = express.Router();
+
+router.use(requireAuth);
 
 router.get("/", getAllTasks);
 router.post("/", createTask);

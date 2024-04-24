@@ -25,67 +25,72 @@ function SignupForm() {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-xl">Sign Up</CardTitle>
-        <CardDescription>
-          Enter your information to create an account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4">
+    <div className="flex flex-row min-h-screen justify-center items-center -my-14">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">Sign Up</CardTitle>
+          <CardDescription>
+            Enter your information to create an account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-4">
+              <div className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="username">First name</Label>
+                  <Input
+                    name="username"
+                    id="username"
+                    placeholder="Max"
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                    required
+                  />
+                </div>
+              </div>
               <div className="grid gap-2">
-                <Label htmlFor="username">First name</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  name="username"
-                  id="username"
-                  placeholder="Max"
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
+                  name="email"
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  name="password"
+                  id="password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  required
+                />
+              </div>
+              <Button type="submit" className="w-full">
+                Create an account
+              </Button>
+              <Button variant="outline" className="w-full">
+                Sign up with GitHub
+              </Button>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                name="email"
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                name="password"
-                id="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              Create an account
-            </Button>
-            <Button variant="outline" className="w-full">
-              Sign up with GitHub
-            </Button>
+          </form>
+          <div className="mt-4 text-center text-sm">
+            Already have an account?{" "}
+            <Link href="/login" className="underline">
+              Sign in
+            </Link>
           </div>
-        </form>
-        <div className="mt-4 text-center text-sm">
-          Already have an account?{" "}
-          <Link href="/login" className="underline">
-            Sign in
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+          {error && (
+            <div className="text-destructive text-center pt-4">{error}</div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
