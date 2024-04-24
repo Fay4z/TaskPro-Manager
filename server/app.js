@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const TaskRoute = require("./routes/tasks");
 const UserRoute = require("./routes/user");
 
-require("dotenv").config();
+require("dotenv").config({ path: [".env.local", ".env"] });
 
 const app = express();
 
