@@ -23,7 +23,7 @@ code complexity.
 
     [/] - Filter Tasks by status
 
-    [ ] - Authorization
+    [/] - Authorization
 
 ### Things to add :
 
