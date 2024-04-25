@@ -39,14 +39,17 @@ export function CreateTask() {
       return;
     }
     if (data) {
-      const response = await fetch("http://localhost:3000/tasks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `https://${import.meta.env.VITE_WEB_URL}/tasks`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const createdTask = await response.json();
       console.log(createdTask);
 

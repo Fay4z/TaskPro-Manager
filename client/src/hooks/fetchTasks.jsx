@@ -12,11 +12,14 @@ const useFetchTasks = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/tasks", {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
+        const response = await fetch(
+          `https://${import.meta.env.VITE_WEB_URL}/tasks`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
         const data = await response.json();
         setTasks(data);
         setLoading(false);

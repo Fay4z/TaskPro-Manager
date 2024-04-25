@@ -22,7 +22,7 @@ function AllTasksByStatus({ status, formatDate, handleDelete }) {
     async function fetchTasksbyStatus(status) {
       try {
         const response = await fetch(
-          `http://localhost:3000/tasks/status/${status}`,
+          `https://${import.meta.env.VITE_WEB_URL}/tasks/status/${status}`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

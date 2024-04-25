@@ -22,12 +22,15 @@ export default function TaskList({ tasks }) {
       if (!user) {
         return;
       }
-      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://${import.meta.env.VITE_WEB_URL}/tasks/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const data = await response.json();
 
       if (response.status === 200) {

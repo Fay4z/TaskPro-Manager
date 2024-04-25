@@ -37,14 +37,17 @@ const AlertEdit = ({ taskId, task }) => {
     console.log("Updated task:", updatetask);
 
     if (updatetask) {
-      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(updatetask),
-      });
+      const response = await fetch(
+        `https://${import.meta.env.VITE_WEB_URL}/tasks/${taskId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(updatetask),
+        }
+      );
       const updatedTask = await response.json();
       console.log("after updatation in db", updatedTask);
 

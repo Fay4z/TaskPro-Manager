@@ -11,7 +11,7 @@ export const useLogout = () => {
 
     // dispatch logout action
     dispatch({ type: "LOGOUT" });
-    dispatchWorkouts({ type: "SET_TASK", payload: null });
+    dispatchTasks({ type: "SET_TASK", payload: null });
   };
 
   return { logout };
