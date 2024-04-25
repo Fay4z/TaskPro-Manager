@@ -23,9 +23,9 @@ code complexity.
 
     [/] - Filter Tasks by status
 
-### Things to add :
-
     [ ] - Authorization
+
+### Things to add :
 
     [ ] - Filter Tasks by priority
 
